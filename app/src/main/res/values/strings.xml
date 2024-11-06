@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">FoodieFling</string>
+    <string name="email_login">E-mail</string>
+    <string name="pass_login">Password</string>
+    <string name="login_btn">Login</string>
+    <string name="forgot_pass">Forgot Password?</string>
+    <string name="signup_prompt">Don\'t have an account? Sign up</string>
+    <string name="dob">Date of Birth</string>
+    <string name="pass_signup">Re-enter Password</string>
+    <string name="verify_email">Verify your email</string>
+    <string name="otp">OTP</string>
+    <string name="verify">Verify</string>
+    <string name="picture_prompt">Time to put a face to that Name!</string>
+    <string name="bio_prompt">Your time to shine! \nWrite your perfect Intro…</string>
+    <string name="next">Next</string>
+    <string name="profile_setup2_prompt">Tell us a bit more about yourself:</string>
+    <string name="meet_prompt">Who would you like to meet?</string>
+    <string name="men">Men</string>
+    <string name="women">Women</string>
+    <string name="non_binary">Non-Binary</string>
+    <string name="anyone">Anyone</string>
+    <string name="to_find">What are you hoping to find?</string>
+    <string name="long_term">Long-term Relationship</string>
+    <string name="casual">Casual Dates</string>
+    <string name="non_monogamy">Ethical Non-Monogamy</string>
+    <string name="marriage">Marriage</string>
+    <string name="height">Your height:</string>
+    <string name="feet">ft</string>
+    <string name="inches">in</string>
+    <string name="edu_q">What\'s your education level?</string>
+    <string name="high_school">High School Degree</string>
+    <string name="college">In College</string>
+    <string name="ug">Undergrad Degree</string>
+    <string name="grad_school">In Graduate School</string>
+    <string name="grad">Graduate Degree</string>
+    <string name="smoke_q">Do you smoke?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="occasionally">Occasionally</string>
+    <string name="drink_q">Do you drink?</string>
+    <string name="kids_q">Have kids?</string>
+    <string name="family_q">Family plans?</string>
+    <string name="want_kids">Want kids</string>
+    <string name="dont_want_kids">Don\'t want kids</string>
+    <string name="not_sure">Not sure</string>
+    <string name="open_to_kids">Open to kids</string>
+    <string name="finish">Finish</string>
+    <string name="cuisine_cravings">Cuisine Cravings</string>
+    <string name="dish_delights">Dish Delights</string>
+    <string name="cuisine_prompt">Choose up to 3 of your favorite delicious cuisines</string>
+    <string name="dish_prompt">Choose 5 must try Dishes from your favorite cuisines!</string>
+    <string name="demo">Demo</string>
+    <string name="signup_prompt1">Register to</string>
+    <string name="signup_prompt2">find love</string>
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Non-Binary</item>
+    </string-array>
+</resources>

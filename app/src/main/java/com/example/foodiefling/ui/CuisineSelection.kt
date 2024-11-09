@@ -15,7 +15,6 @@ import androidx.core.view.marginBottom
 import com.example.foodiefling.R
 
 class CuisineSelection : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cusine_selection)
@@ -101,5 +100,7 @@ class CuisineSelection : AppCompatActivity() {
 
     }
 
-
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }

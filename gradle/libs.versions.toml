@@ -18,6 +18,10 @@ activation = "1.6.2"
 retrofit = "2.9.0"
 gsonConverter = "2.9.0"
 roundedimageview = "2.3.0"
+#googleGmsGoogleServices = "4.4.2"
+firebaseBom = "33.4.0" # Version for Firebase BOM
+firebaseAnalytics = "21.3.0"
+firebaseDatabaseKtx = "21.0.0" # Firebase analytics version (usually set automatically by BOM)
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -37,8 +41,13 @@ activation = { module = "com.sun.mail:android-activation", version.ref = "activa
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 gsonConverter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gsonConverter" }
 roundedimageview = { module = "com.makeramen:roundedimageview", version.ref = "roundedimageview" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

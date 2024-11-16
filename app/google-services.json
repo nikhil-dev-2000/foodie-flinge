@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "104630704091",
+    "project_id": "foodie-fling-messaging",
+    "storage_bucket": "foodie-fling-messaging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104630704091:android:4c783bb277761da900f9fe",
+        "android_client_info": {
+          "package_name": "com.example.foddieflingmessaging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIvCyEONLRf3U-JWkgIIySeMA_vNe3mLc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

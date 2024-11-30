@@ -83,7 +83,7 @@
 
     <LinearLayout
         android:layout_width="318dp"
-        android:layout_height="500dp"
+        android:layout_height="520dp"
         android:layout_marginTop="100dp"
         android:background="@drawable/background"
         android:gravity="center_horizontal"
@@ -95,7 +95,7 @@
         app:layout_constraintVertical_bias="0.61">
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/fname"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginTop="35dp"
@@ -104,9 +104,21 @@
             android:drawablePadding="15dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Name" />
+            android:hint="First Name" />
+
+        <EditText
+            android:id="@+id/lname"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:drawableLeft="@drawable/baseline_person_24"
+            android:drawablePadding="15dp"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="Last Name" />
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:orientation="horizontal">
@@ -119,7 +131,7 @@
                 app:srcCompat="@drawable/baseline_transgender_24" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/gender"
                 android:layout_width="174dp"
                 android:layout_height="match_parent"
                 android:spinnerMode="dropdown" />
@@ -131,17 +143,18 @@
             android:layout_height="1dp"
             android:background="#464647" />
 
-        <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:drawableLeft="@drawable/baseline_calendar_month_24"
-            android:drawablePadding="15dp"
-            android:ems="10"
-            android:inputType="date"
-            android:text="@string/dob" />
+
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:drawableLeft="@drawable/baseline_calendar_month_24"
+                android:drawablePadding="15dp"
+                android:ems="10"
+                android:inputType="date"
+                android:hint="@string/dob" />
 
         <EditText
             android:id="@+id/email"
@@ -152,7 +165,7 @@
             android:drawablePadding="15dp"
             android:ems="10"
             android:inputType="text"
-            android:text="@string/email_login" />
+            android:hint="@string/email_login" />
 
         <EditText
             android:id="@+id/editTextTextPassword"
@@ -182,7 +195,6 @@
             android:id="@+id/verify_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="@string/verify_email" />
     </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodiefling.R
 
 class ChatUserAdapter(val context: Context, val userList: ArrayList<ChatUser>):
     RecyclerView.Adapter<ChatUserAdapter.UserViewHolder>() {

@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodiefling.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -63,14 +64,14 @@ class ChatSelectActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.btn_logout) {
-            mAuth.signOut()
-            val intent = Intent(this@ChatSelectActivity, Login::class.java)
-            finish()
-            startActivity(intent)
-            return true
-        }
-        return true
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (item.itemId == R.id.btn_logout) {
+//            mAuth.signOut()
+//            val intent = Intent(this@ChatSelectActivity, Login::class.java)
+//            finish()
+//            startActivity(intent)
+//            return true
+//        }
+//        return true
+//    }
 }

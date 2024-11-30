@@ -105,10 +105,20 @@
             android:layout_weight="1"
             android:text="@string/inches"
             android:textSize="18sp" />
+
     </LinearLayout>
 
+    <SearchView
+        android:id="@+id/citySearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Spinner
-        android:id="@+id/city_spinner"
+        android:id="@+id/citySpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

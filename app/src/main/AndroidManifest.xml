@@ -16,7 +16,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".ui.ProfileSetup3"
+            android:name=".ui.ProfileSetup1"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>

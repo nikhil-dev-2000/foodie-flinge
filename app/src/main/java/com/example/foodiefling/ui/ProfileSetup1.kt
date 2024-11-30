@@ -6,6 +6,9 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -16,6 +19,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.foodiefling.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.GenericTypeIndicator
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class ProfileSetup1 : AppCompatActivity() {
 
@@ -25,11 +34,54 @@ class ProfileSetup1 : AppCompatActivity() {
     private var currentLayoutId: Int = 0 // To hold the currently clicked layout ID
     private var currentLayoutIndex: Int = 0 // To hold the currently clicked layout index
     private var currentCrossButtonId: Int = 0 // To hold the currently clicked cross button ID
+    private lateinit var storageRef: StorageReference
+
+    private lateinit var user: User
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_setup1)
+
+        val auth = FirebaseAuth.getInstance()
+        if (auth.currentUser == null) {
+            auth.signInAnonymously()
+                .addOnSuccessListener {
+                    Log.d("FirebaseAuth", "User signed in anonymously")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("FirebaseAuth", "Anonymous sign-in failed: ${e.message}")
+                }
+        }
+
+        val db: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        storageRef = FirebaseStorage.getInstance("gs://foodie-fling.firebasestorage.app").reference
+
+
+//        val intent = intent
+//        val userId = intent.getStringExtra("user_id")
+        val userId = "User_4021"
+
+        if (userId != null) {
+            db.child(userId).get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    // Extract user data
+                    user = dataSnapshot.getValue(User::class.java)!!
+                    // Check if user is not null
+                    user.let {
+                        Log.d("User Retrieval", "User Data: $it")
+                        Log.d("User Retrieval", "User Data: $user")
+                    }
+                } else {
+                    // Handle the case where the user does not exist
+                    Log.e("User Retrieval", "User  not found")
+                }
+            }.addOnFailureListener { error ->
+                // Handle any errors that occur during the retrieval
+                Log.e("User Retrieval", "Error retrieving user data: ${error.message}")
+            }
+        }
+
 
         // Initialize image picker launcher
         imagePickerLauncher = registerForActivityResult(
@@ -48,6 +100,8 @@ class ProfileSetup1 : AppCompatActivity() {
                 val crossButton = findViewById<ImageView>(currentCrossButtonId)
                 crossButton.visibility = ImageView.VISIBLE
                 isImageUploaded[currentLayoutIndex] = true
+
+                uploadImageToFirebase(selectedUri, userId)
             } ?: run {
                 Toast.makeText(this, "Image selection cancelled", Toast.LENGTH_SHORT).show()
             }
@@ -95,6 +149,10 @@ class ProfileSetup1 : AppCompatActivity() {
 
             // Set up click listener for the cross button
             crossButton.setOnClickListener {
+                val photoUrl = user.profile?.photos?.get(index)
+                if (photoUrl != null) {
+                    deleteImageFromFirebase(photoUrl, userId, index)
+                }
                 // Reset the layout background and hide the cross button
                 layout.background = getDrawable(R.drawable.background) // Change to your default background
                 crossButton.visibility = ImageView.GONE
@@ -105,6 +163,18 @@ class ProfileSetup1 : AppCompatActivity() {
                 imageView.visibility = ImageView.VISIBLE
             }
         }
+
+        val bio = findViewById<EditText>(R.id.bio)
+        val nextButton = findViewById<Button>(R.id.next_button)
+        nextButton.setOnClickListener {
+            val dbRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("profile").child("bio")
+            dbRef.setValue(bio.text.toString()).addOnSuccessListener {
+                Log.d("Firebase Database", "Bio updated successfully")
+            }.addOnFailureListener { e ->
+                Log.e("Firebase Database", "Error updating bio: ${e.message}")
+            }
+        }
+
     }
 
     private fun getImageViewId(index: Int): Int {
@@ -151,4 +221,102 @@ class ProfileSetup1 : AppCompatActivity() {
             null
         }
     }
+
+    private fun uploadImageToFirebase(uri: Uri, userId: String) {
+        val uniqueFileName = "${System.currentTimeMillis()}_${uri.lastPathSegment}"
+        val photoRef: StorageReference = storageRef.child("users/$userId/photos/$uniqueFileName")
+
+        val dbRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("profile").child("photos")
+
+        photoRef.putFile(uri)
+            .addOnSuccessListener {
+                photoRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                    val photoUrl = downloadUri.toString()
+
+                    dbRef.get().addOnSuccessListener { snapshot ->
+                        // Use GenericTypeIndicator to handle the list of Strings
+                        val typeIndicator = object : GenericTypeIndicator<List<String>>() {}
+                        val currentPhotos: List<String> = snapshot.getValue(typeIndicator) ?: emptyList()
+
+                        // Add the new photo URL
+                        val updatedPhotos = currentPhotos.toMutableList()
+                        updatedPhotos.add(photoUrl)
+
+                        // Save the updated photos list back to Firebase
+                        dbRef.setValue(updatedPhotos).addOnSuccessListener {
+                            user.profile?.photos = updatedPhotos
+                            Toast.makeText(this, "Image uploaded successfully", Toast.LENGTH_SHORT).show()
+                            Log.d("Firebase Database", "Updated Photos List: $updatedPhotos")
+                        }.addOnFailureListener { e ->
+                            Log.e("Firebase Database", "Error saving photo URL: ${e.message}")
+                        }
+                    }.addOnFailureListener { e ->
+                        Log.e("Firebase Database", "Error retrieving current photos: ${e.message}")
+                    }
+                }.addOnFailureListener { e ->
+                    Log.e("Firebase Storage", "Error getting download URL: ${e.message}")
+                }
+            }.addOnFailureListener { e ->
+                Log.e("Firebase Storage", "Error uploading image: ${e.message}")
+            }
+    }
+
+
+
+    private fun deleteImageFromFirebase(photoUrl: String, userId: String, index: Int) {
+        Log.d("Firebase Storage", "Attempting to delete image with URL: $photoUrl")
+
+        val dbRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("profile").child("photos")
+        val storage = FirebaseStorage.getInstance("gs://foodie-fling.firebasestorage.app")
+
+        Log.d("Firebase Storage", "Attempting to delete image with URL: $photoUrl")
+
+        // Extract the storage path from the URL
+        val storagePath = Uri.parse(photoUrl).path?.split("/o/")?.get(1)?.split("?")?.get(0)?.replace("%2F", "/")
+
+        if (storagePath == null) {
+            Log.e("Firebase Storage", "Invalid photo URL: $photoUrl")
+            Toast.makeText(this, "Failed to delete image: Invalid photo URL.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val photoRef = storage.getReference(storagePath)
+
+        Log.d("Firebase Storage", "Attempting to delete file at: $storagePath")
+
+        // Delete from Firebase Storage
+        photoRef.delete()
+            .addOnSuccessListener {
+                Log.d("Firebase Storage", "Image deleted successfully from storage")
+
+                // Remove from Firebase Database
+                dbRef.get().addOnSuccessListener { snapshot ->
+                    val typeIndicator = object : GenericTypeIndicator<List<String>>() {}
+                    val currentPhotos: List<String> = snapshot.getValue(typeIndicator) ?: emptyList()
+
+                    val updatedPhotos = currentPhotos.toMutableList()
+                    if (index < updatedPhotos.size) {
+                        updatedPhotos.removeAt(index)
+                    }
+
+                    dbRef.setValue(updatedPhotos).addOnSuccessListener {
+                        Toast.makeText(this, "Image deleted successfully", Toast.LENGTH_SHORT).show()
+                        Log.d("Firebase Database", "Updated Photos List after Deletion: $updatedPhotos")
+                        user.profile?.photos = updatedPhotos
+                    }.addOnFailureListener { e ->
+                        Log.e("Firebase Database", "Error updating photo list: ${e.message}")
+                    }
+                }.addOnFailureListener { e ->
+                    Log.e("Firebase Database", "Error retrieving current photos: ${e.message}")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firebase Storage", "Error deleting image from storage: ${e.message}")
+                Toast.makeText(this, "Failed to delete image from storage.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+
+
 }

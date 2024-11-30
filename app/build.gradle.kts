@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
     //id("com.google.gms.google-services")
 }
 
@@ -51,6 +52,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database.ktx)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -58,9 +60,14 @@ dependencies {
     implementation(libs.javamail)
     implementation(libs.activation)
     implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
     implementation(libs.gsonConverter)
     implementation(libs.roundedimageview)
     implementation(platform(libs.firebase.bom)) // Firebase BOM to manage versions
     implementation(libs.firebase.analytics)    // Firebase Analytics
     implementation(libs.firebase.auth)         // Firebase Authentication
+    implementation(libs.firebase.storage)  // Firebase Storage
+    implementation(libs.poi)
+    implementation(libs.poi.ooxml)
+    implementation(libs.commons.collections4)
 }

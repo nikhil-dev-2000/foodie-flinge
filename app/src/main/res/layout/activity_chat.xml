@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,69 +7,77 @@
     android:background="@color/pink"
     tools:context=".ChatActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/pink"
-        android:minHeight="56dp">
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/baseline_chevron_left_24" />
+
+        <TextView
+            android:id="@+id/receiver_name"
+            android:layout_width="277dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="TextView"
+            android:textSize="24dp" />
 
         <ImageView
             android:id="@+id/btn_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/backarrow" />
+            android:layout_weight="1"
+            app:srcCompat="@drawable/secondary_logo" />
 
-        <TextView
-            android:id="@+id/receiver_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Receiver Name"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/btn_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/chat_heart" />
-    </androidx.appcompat.widget.Toolbar>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="386dp"
+        android:layout_height="578dp"
         android:layout_above="@+id/linearLayout"
-        android:layout_below="@id/toolbar2"
 
-        android:layout_marginTop="-4dp"
-        android:layout_marginBottom="7dp"
-        tools:layout_editor_absoluteX="10dp"
-        tools:layout_editor_absoluteY="10dp" />
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.469" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
-        android:layout_marginBottom="5dp"
-        android:weightSum="100">
+        android:weightSum="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.976"
+        tools:layout_editor_absoluteX="-16dp">
 
         <EditText
             android:id="@+id/messageBox"
             android:layout_width="wrap_content"
             android:layout_height="58dp"
-            android:layout_weight="85"
             android:layout_marginLeft="10dp"
+            android:layout_weight="85"
             android:background="@drawable/message_background"
             android:backgroundTint="@color/blue"
-            android:hint=" Type a message"/>
+            android:hint=" Type a message" />
 
         <ImageView
             android:id="@+id/sentButton"
@@ -82,5 +90,4 @@
     </LinearLayout>
 
 
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

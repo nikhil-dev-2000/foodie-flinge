@@ -1,4 +1,4 @@
-package com.example.foddieflingmessaging
+package com.example.foodiefling.ui
 
 class ChatUser  {
     var name: String? = null

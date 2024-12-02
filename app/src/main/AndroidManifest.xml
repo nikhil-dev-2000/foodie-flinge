@@ -16,7 +16,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".ui.ProfileSetup1"
+            android:name=".ui.LoginActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true"
             android:label="@string/app_name">
@@ -27,7 +27,55 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.ProfileSetup4"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+        <activity
+            android:name=".ui.ProfileSetup5"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+        <activity
+        android:name=".ui.ProfileSetup1"
+        android:windowSoftInputMode="adjustPan"
+        android:exported="true" />
+        <activity
+            android:name=".ui.ProfileSetup2"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+        <activity
+            android:name=".ui.ProfileSetup3"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+        <activity
+            android:name=".ui.CuisineSelection"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+        <activity
+            android:name=".ui.DishSelection"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" />
+        <activity
+            android:name=".ui.SignUp"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.PotentialMatches"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.Filter"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.ChatSelectActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.ChatActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.RestaurantListing"
             android:exported="true">
         </activity>
     </application>

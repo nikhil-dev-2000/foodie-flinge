@@ -8,54 +8,49 @@ data class User(
     val age: Int = 0,
     val gender: String = "",
     val password: String = "",
-    val preferences: Preferences? = null,
+    val preferences: Preferences? = Preferences(),
     val profile: Profile? = null,
-    val matches: List<Match>? = null
+    val matches: MutableList<Match>? = mutableListOf()
 )
 
 data class Preferences(
-    val age: String? = null,
-    val distance: String? = null,
-    val drink: String? = null,
-    val gender: String? = null,
-    val raceOrEthnicity: String? = null,
-    val religion: String? = null,
-    val smoke: String? = null
+    var maxAge: Int? = null,
+    var minAge: Int? = null,
+    var location: String? = null,
+    var drink: String? = null,
+    var gender: String? = null,
+    var raceOrEthnicity: String? = null,
+    var religion: String? = null,
+    var smoke: String? = null
 )
 
 data class Profile(
+    var city: String? = null,
     val bio: String? = null,
-    val cuisine: List<Cuisine>? = null,
-    val dish: List<Dish>? = null,
-    val drink: Boolean? = null,
-    val education: String? = null,
+    var cuisine: MutableList<String>? = null,
+    var dish: MutableList<String>? = null,
+    var drink: String? = null,
+    var education: String? = null,
     val foodAllergy: List<String>? = null,
     val height: Double? = null,
-    val kids: Boolean? = null,
+    var allergies: String? = null,
+    var kids: String? = null,
+    var familyPlans: String? = null,
     val location: String? = null,
     var photos: List<String>? = null,
-    val raceOrEthnicity: String? = null,
-    val religion: String? = null,
-    val sexualPreference: String? = null,
-    val smoke: Boolean? = null,
+    var raceOrEthnicity: String? = null,
+    var religion: String? = null,
+    var genderPref: String? = null,
+    var smoke: String? = null,
     val vegan: Boolean? = null,
     val vegetarian: Boolean? = null,
-    val whatLookingFor: String? = null
+    var whatLookingFor: String? = null
 )
 
-data class Cuisine(
-    val cuisineId: Int = 0,
-    val cuisineName: String = ""
-)
-
-data class Dish(
-    val dishId: Int = 0,
-    val dishName: String = ""
-)
 
 data class Match(
     val matchedUser: Int? = null,
     val score: String? = null,
-    val cuisines: List<Cuisine>? = null,
-    val dishes: List<Dish>? = null
+    val cuisines: MutableList<String>? = mutableListOf(),
+    val dishes: MutableList<String>? = mutableListOf()
 )

@@ -1,32 +1,77 @@
 package com.example.foodiefling.ui
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.foodiefling.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class ProfileSetup3 : AppCompatActivity() {
 
     var genderPref: String? = null
     var relationshipPref: String? = null
 
-    val men = findViewById<LinearLayout>(R.id.menL)
-    val women = findViewById<LinearLayout>(R.id.womenL)
-    val anyone = findViewById<LinearLayout>(R.id.anyoneL)
-    val nonBinary = findViewById<LinearLayout>(R.id.nonBinaryL)
+    private lateinit var men: LinearLayout
+    private lateinit var women: LinearLayout
+    private lateinit var anyone: LinearLayout
+    private lateinit var nonBinary: LinearLayout
 
-    val longTerm = findViewById<LinearLayout>(R.id.longTermL)
-    val ENM = findViewById<LinearLayout>(R.id.ENML)
-    val marriage = findViewById<LinearLayout>(R.id.marriageL)
-    val casual = findViewById<LinearLayout>(R.id.casualL)
+    private lateinit var longTerm: LinearLayout
+    private lateinit var ENM: LinearLayout
+    private lateinit var marriage: LinearLayout
+    private lateinit var casual: LinearLayout
+
+    private lateinit var next: View
+
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_setup3)
 
+        val db: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+
+        val intent = intent
+        val userId = intent.getStringExtra("user_id")
+
+        if (userId != null) {
+            db.child(userId).get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    // Extract user data
+                    user = dataSnapshot.getValue(User::class.java)!!
+                    // Check if user is not null
+                    user.let {
+                        Log.d("User Retrieval", "User Data: $it")
+                        Log.d("User Retrieval", "User Data: $user")
+                    }
+                } else {
+                    // Handle the case where the user does not exist
+                    Log.e("User Retrieval", "User  not found")
+                }
+            }.addOnFailureListener { error ->
+                // Handle any errors that occur during the retrieval
+                Log.e("User Retrieval", "Error retrieving user data: ${error.message}")
+            }
+        }
+
+        // Initializing UI elements
+        men = findViewById(R.id.menL)
+        women = findViewById(R.id.womenL)
+        anyone = findViewById(R.id.anyoneL)
+        nonBinary = findViewById(R.id.nonBinaryL)
+
+        longTerm = findViewById(R.id.longTermL)
+        ENM = findViewById(R.id.ENML)
+        marriage = findViewById(R.id.marriageL)
+        casual = findViewById(R.id.casualL)
+
+        next = findViewById(R.id.next)
 
         val clickListener = View.OnClickListener { view ->
             setGenderPrefColor()
@@ -58,6 +103,14 @@ class ProfileSetup3 : AppCompatActivity() {
         marriage.setOnClickListener(clickListener2)
         casual.setOnClickListener(clickListener2)
 
+        next.setOnClickListener {
+            user.profile?.genderPref = genderPref
+            user.profile?.whatLookingFor = relationshipPref
+            db.child(userId!!).setValue(user)
+            val intent1 = Intent(this, ProfileSetup4::class.java)
+            intent1.putExtra("user_id", userId)
+            startActivity(intent1)
+        }
     }
 
     private fun genderPref(gender: String) {

@@ -1,6 +1,7 @@
 package com.example.foodiefling.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -58,9 +59,8 @@ class ProfileSetup1 : AppCompatActivity() {
         storageRef = FirebaseStorage.getInstance("gs://foodie-fling.firebasestorage.app").reference
 
 
-//        val intent = intent
-//        val userId = intent.getStringExtra("user_id")
-        val userId = "User_4021"
+        val intent = intent
+        var userId = intent.getStringExtra("user_id")
 
         if (userId != null) {
             db.child(userId).get().addOnSuccessListener { dataSnapshot ->
@@ -88,23 +88,29 @@ class ProfileSetup1 : AppCompatActivity() {
             ActivityResultContracts.GetContent()
         ) { uri: Uri? ->
             uri?.let { selectedUri ->
-                // Find the clicked layout based on the tag
                 val clickedLayout = findViewById<LinearLayout>(currentLayoutId)
-                clickedLayout.background = getDrawableFromUri(selectedUri)
+                val drawable = getDrawableFromUri(selectedUri)
+                if (drawable != null) {
+                    clickedLayout.background = drawable
+                } else {
+                    Toast.makeText(this, "Failed to load image. Please try again.", Toast.LENGTH_SHORT).show()
+                    return@registerForActivityResult
+                }
 
-                // Hide the image view
                 val imageView = findViewById<ImageView>(getImageViewId(currentLayoutIndex))
                 imageView.visibility = ImageView.GONE
 
-                // Show the cross button
                 val crossButton = findViewById<ImageView>(currentCrossButtonId)
                 crossButton.visibility = ImageView.VISIBLE
                 isImageUploaded[currentLayoutIndex] = true
 
-                uploadImageToFirebase(selectedUri, userId)
+                if (userId != null) {
+                    uploadImageToFirebase(selectedUri, userId)
+                }
             } ?: run {
                 Toast.makeText(this, "Image selection cancelled", Toast.LENGTH_SHORT).show()
             }
+
         }
 
         // Array of layout IDs
@@ -151,7 +157,9 @@ class ProfileSetup1 : AppCompatActivity() {
             crossButton.setOnClickListener {
                 val photoUrl = user.profile?.photos?.get(index)
                 if (photoUrl != null) {
-                    deleteImageFromFirebase(photoUrl, userId, index)
+                    if (userId != null) {
+                        deleteImageFromFirebase(photoUrl, userId, index)
+                    }
                 }
                 // Reset the layout background and hide the cross button
                 layout.background = getDrawable(R.drawable.background) // Change to your default background
@@ -167,10 +175,17 @@ class ProfileSetup1 : AppCompatActivity() {
         val bio = findViewById<EditText>(R.id.bio)
         val nextButton = findViewById<Button>(R.id.next_button)
         nextButton.setOnClickListener {
-            val dbRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("profile").child("bio")
-            dbRef.setValue(bio.text.toString()).addOnSuccessListener {
+            val dbRef = userId?.let { it1 ->
+                FirebaseDatabase.getInstance().getReference("Users").child(
+                    it1
+                ).child("profile").child("bio")
+            }
+            dbRef?.setValue(bio.text.toString())?.addOnSuccessListener {
                 Log.d("Firebase Database", "Bio updated successfully")
-            }.addOnFailureListener { e ->
+                val intent1 = Intent(this, ProfileSetup2::class.java)
+                intent1.putExtra("user_id", userId)
+                startActivity(intent1)
+            }?.addOnFailureListener { e ->
                 Log.e("Firebase Database", "Error updating bio: ${e.message}")
             }
         }
@@ -217,7 +232,7 @@ class ProfileSetup1 : AppCompatActivity() {
             val inputStream = contentResolver.openInputStream(uri)
             Drawable.createFromStream(inputStream, uri.toString())
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("ProfileSetup1", "Error creating drawable from Uri: ${e.message}")
             null
         }
     }

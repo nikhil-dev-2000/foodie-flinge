@@ -53,6 +53,9 @@
     <string name="signup_prompt1">Register to</string>
     <string name="signup_prompt2">find love</string>
     <string name="resend">Resend</string>
+    <string name="your_flings">Your Flings…</string>
+    <string name="allergies">Any food allergies?</string>
+    <string name="enter_allergies">Enter your allergies</string>
     <string-array name="gender_options">
         <item>Gender</item>
         <item>Male</item>

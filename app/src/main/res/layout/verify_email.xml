@@ -39,7 +39,7 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="number"
-            android:text="@string/otp"
+            android:hint="@string/otp"
             android:textAlignment="center" />
 
         <LinearLayout

@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.firebase.auth.FirebaseAuth
 import android.content.Context
+import com.example.foodiefling.R
+import com.example.foodiefling.ui.Message
 
-class MessageAdapter(val context: Context, val messageList: ArrayList<Message>):
+class MessageAdapter(val context: Context, val messageList: ArrayList<Message>, val currentUserId: String):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val ITEM_RECEIVE = 1;
@@ -33,7 +35,7 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>):
         val currentMessage = messageList[position]
         //val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
 
-        if(FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderId)){
+        if(currentUserId == currentMessage.senderId){
             return ITEM_SENT
         }else{
             return ITEM_RECEIVE

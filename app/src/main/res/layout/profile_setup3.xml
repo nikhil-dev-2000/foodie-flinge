@@ -69,6 +69,7 @@
         app:layout_constraintVertical_bias="0.123" />
 
     <LinearLayout
+        android:id="@+id/menL"
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -91,11 +92,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/womenL"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
         android:background="@drawable/background"
-        android:backgroundTint="#C3D03A8C"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -114,7 +115,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/anyoneL"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -137,6 +138,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/nonBinaryL"
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -173,7 +175,7 @@
         app:layout_constraintVertical_bias="0.406" />
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/longTermL"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -196,6 +198,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ENML"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -218,6 +221,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/marriageL"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -240,11 +244,11 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/casualL"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
         android:background="@drawable/background"
-        android:backgroundTint="#C3D03A8C"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -263,7 +267,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/next"
         android:layout_width="296dp"
         android:layout_height="50dp"
         android:backgroundTint="#60C3E2"

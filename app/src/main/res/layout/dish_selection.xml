@@ -626,7 +626,7 @@
         app:srcCompat="@drawable/baseline_close_24" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/next"
         android:layout_width="296dp"
         android:layout_height="50dp"
         android:backgroundTint="#60C3E2"

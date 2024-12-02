@@ -1,24 +1,55 @@
 package com.example.foodiefling.ui
 
 // MainActivity.kt
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.marginBottom
 import com.example.foodiefling.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class CuisineSelection : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cusine_selection)
+
+        lateinit var user: User
+
+        val db: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+
+        val intent = intent
+        val userId = intent.getStringExtra("user_id")
+
+        if (userId != null) {
+            db.child(userId).get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    // Extract user data
+                    user = dataSnapshot.getValue(User::class.java)!!
+                    // Check if user is not null
+                    user.let {
+                        Log.d("User Retrieval", "User Data: $it")
+                        Log.d("User Retrieval", "User Data: $user")
+                    }
+                } else {
+                    // Handle the case where the user does not exist
+                    Log.e("User Retrieval", "User  not found")
+                }
+            }.addOnFailureListener { error ->
+                // Handle any errors that occur during the retrieval
+                Log.e("User Retrieval", "Error retrieving user data: ${error.message}")
+            }
+        }
 
         val container = findViewById<LinearLayout>(R.id.cuisines)
 
@@ -70,6 +101,16 @@ class CuisineSelection : AppCompatActivity() {
 
             linearLayout.addView(textView)
             container.addView(linearLayout)
+
+            val next = findViewById<Button>(R.id.next)
+            next.setOnClickListener {
+                user.profile?.cuisine = selectedCuisines
+                db.child(userId!!).setValue(user)
+                val intent1 = Intent(this, DishSelection::class.java)
+                intent1.putExtra("user_id", userId)
+                intent1.putExtra("selected_cuisines", selectedCuisines.toTypedArray())
+                startActivity(intent1)
+            }
         }
 
     }

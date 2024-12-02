@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.foodiefling.R
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
 
@@ -24,7 +26,35 @@ class LoginActivity : AppCompatActivity() {
         loginBtn.setOnClickListener {
             val email = emailField.text.toString()
             val password = passwordFiled.text.toString()
-            // Perform login logic here
+            val encryptedPassword = HandelPassword.encrypt(password)
+
+            val db = FirebaseDatabase.getInstance().getReference("Users")
+
+            db.get().addOnSuccessListener { dataSnapshot ->
+                var isMatchFound = false
+                for (userSnapshot in dataSnapshot.children) {
+                    val user = userSnapshot.getValue(User::class.java)
+                    if (user != null && user.email == email && user.password == encryptedPassword) {
+                        // Email and password match
+                        isMatchFound = true
+
+                        // Create intent to PotentialMatches
+                        val intent = Intent(this, PotentialMatches::class.java)
+                        intent.putExtra("user_id", "User_${user.userId}")
+                        startActivity(intent)
+                        finish() // Finish the current activity
+                        break
+                    }
+                }
+
+                if (!isMatchFound) {
+                    // No matching email and password found
+                    Toast.makeText(this, "Email and password don't match", Toast.LENGTH_SHORT).show()
+                }
+            }.addOnFailureListener { error ->
+                // Handle database fetch error
+                Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
         }
 
         forgotPass.setOnClickListener {

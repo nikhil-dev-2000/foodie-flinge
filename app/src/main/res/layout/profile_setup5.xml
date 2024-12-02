@@ -57,6 +57,7 @@
         app:layout_constraintVertical_bias="0.133" />
 
     <LinearLayout
+        android:id="@+id/occasionallyL"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -79,6 +80,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/noL"
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -101,6 +103,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/yesL"
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -123,11 +126,11 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/smoke2"
+        android:id="@+id/kidsQ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="@string/drink_q"
+        android:text="@string/kids_q"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -137,6 +140,7 @@
         app:layout_constraintVertical_bias="0.397" />
 
     <LinearLayout
+        android:id="@+id/haveKidsL"
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -151,7 +155,7 @@
         app:layout_constraintVertical_bias="0.37">
 
         <TextView
-            android:id="@+id/yes1"
+            android:id="@+id/haveKids"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/yes"
@@ -159,6 +163,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/dontHaveKidsL"
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -173,7 +178,7 @@
         app:layout_constraintVertical_bias="0.37">
 
         <TextView
-            android:id="@+id/no1"
+            android:id="@+id/dontHaveKids"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no"
@@ -195,6 +200,7 @@
         app:layout_constraintVertical_bias="0.573" />
 
     <LinearLayout
+        android:id="@+id/noKidsL"
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -209,7 +215,7 @@
         app:layout_constraintVertical_bias="0.581">
 
         <TextView
-            android:id="@+id/college"
+            android:id="@+id/noKids"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dont_want_kids"
@@ -217,6 +223,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/wantKidsL"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -231,7 +238,7 @@
         app:layout_constraintVertical_bias="0.698">
 
         <TextView
-            android:id="@+id/gradSchool"
+            android:id="@+id/wantKids"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/want_kids"
@@ -239,6 +246,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/yesKidsL"
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -253,7 +261,7 @@
         app:layout_constraintVertical_bias="0.698">
 
         <TextView
-            android:id="@+id/grad"
+            android:id="@+id/yesKids"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/open_to_kids"
@@ -261,6 +269,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/notSureL"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginTop="100dp"
@@ -275,7 +284,7 @@
         app:layout_constraintVertical_bias="0.581">
 
         <TextView
-            android:id="@+id/ug"
+            android:id="@+id/notSure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/not_sure"
@@ -283,7 +292,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/next"
         android:layout_width="296dp"
         android:layout_height="50dp"
         android:backgroundTint="#60C3E2"

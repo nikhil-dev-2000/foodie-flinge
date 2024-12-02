@@ -1,4 +1,4 @@
-package com.example.foddieflingmessaging
+package com.example.foodiefling.ui
 
 class Message {
     var message: String? = null

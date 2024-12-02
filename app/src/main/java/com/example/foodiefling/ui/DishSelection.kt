@@ -1,10 +1,12 @@
 package com.example.foodiefling.ui
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -13,6 +15,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.foodiefling.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class DishSelection : AppCompatActivity() {
 
@@ -85,13 +89,42 @@ class DishSelection : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dish_selection)
+
+        lateinit var user: User
+
+        val db: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+
+        val intent = intent
+        val userId = intent.getStringExtra("user_id")
+        val selectedCuisines = intent.getStringArrayExtra("selected_cuisines")
+
+        if (userId != null) {
+            db.child(userId).get().addOnSuccessListener { dataSnapshot ->
+                if (dataSnapshot.exists()) {
+                    // Extract user data
+                    user = dataSnapshot.getValue(User::class.java)!!
+                    // Check if user is not null
+                    user.let {
+                        Log.d("User Retrieval", "User Data: $it")
+                        Log.d("User Retrieval", "User Data: $user")
+                    }
+                } else {
+                    // Handle the case where the user does not exist
+                    Log.e("User Retrieval", "User  not found")
+                }
+            }.addOnFailureListener { error ->
+                // Handle any errors that occur during the retrieval
+                Log.e("User Retrieval", "Error retrieving user data: ${error.message}")
+            }
+        }
+
         val selectedDishes1: MutableList<String> = mutableListOf()
         val selectedDishes2: MutableList<String> = mutableListOf()
         val selectedDishes3: MutableList<String> = mutableListOf()
 
-        val cuisine1 = "American"
-        val cuisine2 = "Italian"
-        val cuisine3 = "Mexican"
+        val cuisine1 = selectedCuisines?.get(0)
+        val cuisine2 = selectedCuisines?.get(1)
+        val cuisine3 = selectedCuisines?.get(2)
 
         val expand1 = findViewById<ImageView>(R.id.expand1)
         val expand2 = findViewById<ImageView>(R.id.expand2)
@@ -207,25 +240,47 @@ class DishSelection : AppCompatActivity() {
             Toast.makeText(this, "Button clicked!", Toast.LENGTH_SHORT).show()
             dishesPopUp.visibility = View.VISIBLE
             closePopUp.visibility = View.VISIBLE
-            showDishes(cuisine1, cuisines, selectedDishes1, 1)
+            if (cuisine1 != null) {
+                showDishes(cuisine1, cuisines, selectedDishes1, 1)
+            }
         }
         expand2.setOnClickListener{
             Log.d("aa", "in expand2")
             Toast.makeText(this, "Button clicked!", Toast.LENGTH_SHORT).show()
             dishesPopUp.visibility = View.VISIBLE
             closePopUp.visibility = View.VISIBLE
-            showDishes(cuisine2, cuisines, selectedDishes2, 2)
+            if (cuisine2 != null) {
+                showDishes(cuisine2, cuisines, selectedDishes2, 2)
+            }
         }
         expand3.setOnClickListener{
             Log.d("aa", "in expand3")
             Toast.makeText(this, "Button clicked!", Toast.LENGTH_SHORT).show()
             dishesPopUp.visibility = View.VISIBLE
             closePopUp.visibility = View.VISIBLE
-            showDishes(cuisine3, cuisines, selectedDishes3, 3)
+            if (cuisine3 != null) {
+                showDishes(cuisine3, cuisines, selectedDishes3, 3)
+            }
         }
         closePopUp.setOnClickListener{
             dishesPopUp.visibility = View.GONE
             closePopUp.visibility = View.GONE
+        }
+
+        val next = findViewById<Button>(R.id.next)
+        next.setOnClickListener{
+            user.profile?.dish = (selectedDishes1 + selectedDishes2 + selectedDishes3).toMutableList()
+            user.preferences?.maxAge = 999
+            user.preferences?.minAge = 18
+            user.preferences?.gender = user.profile?.genderPref
+            user.preferences?.location = user.profile?.city
+            user.preferences?.drink = user.profile?.drink
+            user.preferences?.raceOrEthnicity = user.profile?.raceOrEthnicity
+            user.preferences?.religion = user.profile?.religion
+            db.child(userId!!).setValue(user)
+            val intent1 = Intent(this, PotentialMatches::class.java)
+            intent1.putExtra("user_id", userId)
+            startActivity(intent1)
         }
 
 

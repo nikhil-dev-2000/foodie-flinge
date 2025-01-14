@@ -36,7 +36,6 @@ class ProfileSetup1 : AppCompatActivity() {
     private var currentLayoutIndex: Int = 0 // To hold the currently clicked layout index
     private var currentCrossButtonId: Int = 0 // To hold the currently clicked cross button ID
     private lateinit var storageRef: StorageReference
-
     private lateinit var user: User
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -56,7 +55,7 @@ class ProfileSetup1 : AppCompatActivity() {
         }
 
         val db: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
-        storageRef = FirebaseStorage.getInstance("gs://foodie-fling.firebasestorage.app").reference
+        storageRef = FirebaseStorage.getInstance("gs://example.firebasestorage.app").reference // add your url here
 
 
         val intent = intent
@@ -282,7 +281,7 @@ class ProfileSetup1 : AppCompatActivity() {
         Log.d("Firebase Storage", "Attempting to delete image with URL: $photoUrl")
 
         val dbRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("profile").child("photos")
-        val storage = FirebaseStorage.getInstance("gs://foodie-fling.firebasestorage.app")
+        val storage = FirebaseStorage.getInstance("gs://example.firebasestorage.app") // add your url here
 
         Log.d("Firebase Storage", "Attempting to delete image with URL: $photoUrl")
 

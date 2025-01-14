@@ -160,7 +160,7 @@ class SignUp : AppCompatActivity() {
 
     }
     private fun sendOTP(email: String): Int {
-        val emailSender = EmailSender("nikhilnandish2312@gmail.com", "govy itnm acve lqpw")
+        val emailSender = EmailSender("example@gmail.com", "xxxx xxxx xxxx xxxx") // add your email and password
         val otp = (1000..9999).random()
         emailSender.sendEmail(email, "Your OTP Code", "Your OTP is: $otp")
         Log.d("OTP", "Generated OTP: ")

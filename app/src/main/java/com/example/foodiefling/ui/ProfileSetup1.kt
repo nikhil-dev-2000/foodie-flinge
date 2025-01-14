@@ -36,7 +36,6 @@ class ProfileSetup1 : AppCompatActivity() {
     private var currentLayoutIndex: Int = 0 // To hold the currently clicked layout index
     private var currentCrossButtonId: Int = 0 // To hold the currently clicked cross button ID
     private lateinit var storageRef: StorageReference
-
     private lateinit var user: User
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
